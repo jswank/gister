@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<?asciidoc-toc?>
+<?asciidoc-numbered?>
+<refentry>
+<refmeta>
+<refentrytitle>gister</refentrytitle>
+<manvolnum>1</manvolnum>
+</refmeta>
+<refnamediv>
+  <refname>gister</refname>
+  <refpurpose>Create a githib gist from the command line</refpurpose>
+</refnamediv>
+<refsynopsisdiv id="_synopsis">
+<simpara><emphasis role="strong">gister</emphasis> [<emphasis>OPTION</emphasis>]&#8230; [<emphasis>FILE</emphasis>]&#8230;</simpara>
+<simpara><emphasis role="strong">gister</emphasis> -p [<emphasis>FILE</emphasis>]&#8230;</simpara>
+<simpara><emphasis role="strong">gister</emphasis> -d "gist description" [<emphasis>FILE</emphasis>]&#8230;</simpara>
+<simpara><emphasis role="strong">gister</emphasis> -n "application log" &lt; /var/log/app.log</simpara>
+</refsynopsisdiv>
+<refsect1 id="_description">
+<title>DESCRIPTION</title>
+<simpara>gister(1) creates Github gists using one or more files and outputs the
+URL of the gist created.  Github OAuth authentication must be used:
+see <emphasis>AUTHENTICATION</emphasis> below.</simpara>
+</refsect1>
+<refsect1 id="_options">
+<title>OPTIONS</title>
+<variablelist>
+<varlistentry>
+<term>
+<emphasis role="strong">-d</emphasis>, <emphasis role="strong">-description</emphasis>=<emphasis>description</emphasis>
+</term>
+<listitem>
+<simpara>
+   Set the description of the gist.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<emphasis role="strong">-i</emphasis>, <emphasis role="strong">--insecure</emphasis>
+</term>
+<listitem>
+<simpara>
+  Insecure mode: do not perform SSL certificate validation.  This may be required
+  if your host does not trust the correct CA certificates.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<emphasis role="strong">-h</emphasis>, <emphasis role="strong">--help</emphasis>
+</term>
+<listitem>
+<simpara>
+  Print summary of command line options.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<emphasis role="strong">-n</emphasis>, <emphasis role="strong">--name</emphasis>=<emphasis>filename</emphasis>
+</term>
+<listitem>
+<simpara>
+   When using stdin, set the file name displayed the gist.  Defaults to "stdin.txt".
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<emphasis role="strong">-p</emphasis>, <emphasis role="strong">--public</emphasis>
+</term>
+<listitem>
+<simpara>
+   Create a public gist.  By default, private gists are created.
+</simpara>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>
+<emphasis role="strong">-v</emphasis>, <emphasis role="strong">--version</emphasis>
+</term>
+<listitem>
+<simpara>
+  Print gister(1) version.
+</simpara>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1 id="_authentication">
+<title>AUTHENTICATION</title>
+<simpara>gister(1) uses GitHub OAuth authentication.  A token must be generated
+once, and then can be used for all your gister(1) needs.</simpara>
+<simpara>To generate an OAuth token, run:</simpara>
+<literallayout class="monospaced">$ curl -s -u github_username -d \
+  '{"scopes": ["gist"], "note": "commandline gister"}' \
+  https://api.github.com/authorizations</literallayout>
+<simpara>Use the value of <emphasis role="strong">token</emphasis> as your token.</simpara>
+<simpara>A token can be revoked at anytime by visiting the URL
+<ulink url="https://github.com/settings/applications">https://github.com/settings/applications</ulink></simpara>
+<simpara>Once you have an appropriate token, there are two ways to tell gister(1)
+what token to use.</simpara>
+<simpara>Option 1: set a git(1) key for <emphasis role="strong">gist.token</emphasis>.</simpara>
+<literallayout class="monospaced">$ git config --global --add gist.token "my oauth token"
+$ gister example.txt</literallayout>
+<simpara>Option 2: specify the token as an environment variable.</simpara>
+<literallayout class="monospaced">$ export GIST_OAUTH="my oauth token"
+$ gister example.txt</literallayout>
+</refsect1>
+<refsect1 id="_security">
+<title>SECURITY</title>
+<simpara>By default, gister(1) performs validation on the SSL certificate
+presented by <ulink url="https://api.githib.com">https://api.githib.com</ulink>.  If your system does not trust the
+CA certificate that was used to sign it, then you should add it to your
+(platform specific) trusted list of CA certificates.</simpara>
+<simpara>Alternatively, the <emphasis role="strong">-i</emphasis> option can be specified to disable SSL certificate
+verification.</simpara>
+</refsect1>
+<refsect1 id="_examples">
+<title>EXAMPLES</title>
+<simpara>Create a new gist, with description "My test gist", consisting of
+two files.</simpara>
+<literallayout class="monospaced">$ gister -d "My test gist" example.txt example2.txt
+  https://gist.github.com/ff9802fdf326abdb6</literallayout>
+<simpara>Create a new public gist from standard input.  Assign the name "groups"
+to the filename.</simpara>
+<literallayout class="monospaced">$ gister -p -n "groups" &lt; /etc/groups
+  https://gist.github.com/ff9802fdf326abdb6</literallayout>
+<simpara>Create a new gist (showing SSL verification error).</simpara>
+<literallayout class="monospaced">$ echo "foo" | ./gister
+  connection error, x509: certificate signed by unknown authority
+$ echo "foo" | ./gister -i
+  https://gist.github.com/ff9802fdf326abdb6</literallayout>
+</refsect1>
+<refsect1 id="_environment">
+<title>ENVIRONMENT</title>
+<variablelist>
+<varlistentry>
+<term>
+<emphasis role="strong">GIST_OAUTH</emphasis>
+</term>
+<listitem>
+<simpara>
+    The token to use for OAuth authentication.  This overrides
+        the setting gist.token (if defined) in the global git config.
+</simpara>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+<refsect1 id="_author">
+<title>AUTHOR</title>
+<simpara>gister was originally written by Jason Swank.</simpara>
+</refsect1>
+<refsect1 id="_copying">
+<title>COPYING</title>
+<simpara>Copyright (C) 2012-2013 Jason Swank.  Free use of this software is
+granted under the terms of the MIT license.</simpara>
+</refsect1>
+</refentry>

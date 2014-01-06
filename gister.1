@@ -1,0 +1,182 @@
+'\" t
+.\"     Title: gister
+.\"    Author: [see the "AUTHOR" section]
+.\" Generator: DocBook XSL Stylesheets v1.77.1 <http://docbook.sf.net/>
+.\"      Date: 01/21/2013
+.\"    Manual: User Commands
+.\"    Source: gister
+.\"  Language: English
+.\"
+.TH "GISTER" "1" "01/21/2013" "gister" "User Commands"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+gister \- Create a githib gist from the command line
+.SH "SYNOPSIS"
+.sp
+\fBgister\fR [\fIOPTION\fR]\&... [\fIFILE\fR]\&...
+.sp
+\fBgister\fR \-p [\fIFILE\fR]\&...
+.sp
+\fBgister\fR \-d "gist description" [\fIFILE\fR]\&...
+.sp
+\fBgister\fR \-n "application log" < /var/log/app\&.log
+.SH "DESCRIPTION"
+.sp
+gister(1) creates Github gists using one or more files and outputs the URL of the gist created\&. Github OAuth authentication must be used: see \fIAUTHENTICATION\fR below\&.
+.SH "OPTIONS"
+.PP
+\fB\-d\fR, \fB\-description\fR=\fIdescription\fR
+.RS 4
+Set the description of the gist\&.
+.RE
+.PP
+\fB\-i\fR, \fB\-\-insecure\fR
+.RS 4
+Insecure mode: do not perform SSL certificate validation\&. This may be required if your host does not trust the correct CA certificates\&.
+.RE
+.PP
+\fB\-h\fR, \fB\-\-help\fR
+.RS 4
+Print summary of command line options\&.
+.RE
+.PP
+\fB\-n\fR, \fB\-\-name\fR=\fIfilename\fR
+.RS 4
+When using stdin, set the file name displayed the gist\&. Defaults to "stdin\&.txt"\&.
+.RE
+.PP
+\fB\-p\fR, \fB\-\-public\fR
+.RS 4
+Create a public gist\&. By default, private gists are created\&.
+.RE
+.PP
+\fB\-v\fR, \fB\-\-version\fR
+.RS 4
+Print gister(1) version\&.
+.RE
+.SH "AUTHENTICATION"
+.sp
+gister(1) uses GitHub OAuth authentication\&. A token must be generated once, and then can be used for all your gister(1) needs\&.
+.sp
+To generate an OAuth token, run:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+$ curl \-s \-u github_username \-d \e
+  \*(Aq{"scopes": ["gist"], "note": "commandline gister"}\*(Aq \e
+  https://api\&.github\&.com/authorizations
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+Use the value of \fBtoken\fR as your token\&.
+.sp
+A token can be revoked at anytime by visiting the URL \m[blue]\fBhttps://github\&.com/settings/applications\fR\m[]
+.sp
+Once you have an appropriate token, there are two ways to tell gister(1) what token to use\&.
+.sp
+Option 1: set a git(1) key for \fBgist\&.token\fR\&.
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+$ git config \-\-global \-\-add gist\&.token "my oauth token"
+$ gister example\&.txt
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+Option 2: specify the token as an environment variable\&.
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+$ export GIST_OAUTH="my oauth token"
+$ gister example\&.txt
+.fi
+.if n \{\
+.RE
+.\}
+.SH "SECURITY"
+.sp
+By default, gister(1) performs validation on the SSL certificate presented by \m[blue]\fBhttps://api\&.githib\&.com\fR\m[]\&. If your system does not trust the CA certificate that was used to sign it, then you should add it to your (platform specific) trusted list of CA certificates\&.
+.sp
+Alternatively, the \fB\-i\fR option can be specified to disable SSL certificate verification\&.
+.SH "EXAMPLES"
+.sp
+Create a new gist, with description "My test gist", consisting of two files\&.
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+$ gister \-d "My test gist" example\&.txt example2\&.txt
+  https://gist\&.github\&.com/ff9802fdf326abdb6
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+Create a new public gist from standard input\&. Assign the name "groups" to the filename\&.
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+$ gister \-p \-n "groups" < /etc/groups
+  https://gist\&.github\&.com/ff9802fdf326abdb6
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+Create a new gist (showing SSL verification error)\&.
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+$ echo "foo" | \&./gister
+  connection error, x509: certificate signed by unknown authority
+$ echo "foo" | \&./gister \-i
+  https://gist\&.github\&.com/ff9802fdf326abdb6
+.fi
+.if n \{\
+.RE
+.\}
+.SH "ENVIRONMENT"
+.PP
+\fBGIST_OAUTH\fR
+.RS 4
+The token to use for OAuth authentication\&. This overrides the setting gist\&.token (if defined) in the global git config\&.
+.RE
+.SH "AUTHOR"
+.sp
+gister was originally written by Jason Swank\&.
+.SH "COPYING"
+.sp
+Copyright (C) 2012\-2013 Jason Swank\&. Free use of this software is granted under the terms of the MIT license\&.

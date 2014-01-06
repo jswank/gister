@@ -1,0 +1,145 @@
+gister(1)
+=========
+
+NAME
+----
+gister - Create a githib gist from the command line
+
+
+SYNOPSIS
+--------
+
+*gister* ['OPTION']... ['FILE']...
+
+*gister* -p ['FILE']...
+
+*gister* -d "gist description" ['FILE']...
+
+*gister* -n "application log" < /var/log/app.log
+
+
+DESCRIPTION
+-----------
+
+gister(1) creates Github gists using one or more files and outputs the
+URL of the gist created.  Github OAuth authentication must be used:
+see 'AUTHENTICATION' below.  Notably, availability of git(1) is not
+required for normal operation.
+
+OPTIONS
+-------
+
+*-d*, *-description*='description'::
+   Set the description of the gist.
+
+*-i*, *--insecure*::
+  Insecure mode: do not perform SSL certificate validation.  This may be required 
+  if your host does not trust the correct CA certificates.
+
+*-h*, *--help*::
+  Print summary of command line options.
+
+*-n*, *--name*='filename'::
+   When using stdin, set the file name displayed the gist.  Defaults to "stdin.txt".
+
+*-p*, *--public*::
+   Create a public gist.  By default, private gists are created.
+
+*-v*, *--version*::
+  Print gister(1) version.
+
+
+AUTHENTICATION
+--------------
+
+gister(1) uses GitHub OAuth authentication.  A token must be generated
+once, and then can be used for all your gister(1) needs.
+
+To generate an OAuth token, run:
+
+	$ curl -s -u github_username -d \
+	  '{"scopes": ["gist"], "note": "commandline gister"}' \
+	  https://api.github.com/authorizations
+
+Use the value of *token* as your token.
+
+A token can be revoked at anytime by visiting the URL
+https://github.com/settings/applications
+
+Once you have an appropriate token, there are two ways to tell gister(1)
+what token to use.
+
+Option 1: set a git(1) key for *gist.token*.
+
+	$ git config --global --add gist.token "my oauth token"
+	$ gister example.txt
+
+Option 2: specify the token as an environment variable.
+
+	$ export GIST_OAUTH="my oauth token"
+	$ gister example.txt
+
+
+SECURITY
+--------
+
+By default, gister(1) performs validation on the SSL certificate
+presented by https://api.githib.com.  If your system does not trust the
+CA certificate that was used to sign it, then you should add it to your
+(platform specific) trusted list of CA certificates.
+
+Alternatively, the *-i* option can be specified to disable SSL certificate
+verification.
+
+DEFAULTS
+--------
+
+By default, gists created are private.  The *--public* option overrides this
+default.
+
+Alternatively, git-config(1) can be used to control this behavior.  Set the 
+key gist.private to "false" in order to create public gists by default.
+
+	$ git config --global --bool --add gist.private false
+
+
+EXAMPLES
+--------
+
+Create a new gist, with description "My test gist", consisting of
+two files.
+
+	$ gister -d "My test gist" example.txt example2.txt
+	  https://gist.github.com/ff9802fdf326abdb6
+
+Create a new public gist from standard input.  Assign the name "groups"
+to the filename.
+
+	$ gister -p -n "groups" < /etc/groups
+	  https://gist.github.com/ff9802fdf326abdb6
+
+Create a new gist (showing SSL verification error).
+
+	$ echo "foo" | ./gister
+	  connection error, x509: certificate signed by unknown authority
+	$ echo "foo" | ./gister -i 
+	  https://gist.github.com/ff9802fdf326abdb6
+
+
+ENVIRONMENT
+-----------
+  
+*GIST_OAUTH*::
+    The token to use for OAuth authentication.  This overrides
+	the setting gist.token (if defined) in the global git config.
+
+
+AUTHOR
+------
+gister was originally written by Jason Swank.
+
+
+COPYING
+-------
+Copyright \(C) 2012-2014 Jason Swank.  Free use of this software is
+granted under the terms of the MIT license.

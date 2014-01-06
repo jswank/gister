@@ -1,0 +1,16 @@
+Source: gister
+Maintainer: Jason Swank <jswank@sonatype.com>
+Section: misc
+Priority: optional
+Homepage: https://github.com/jswank/gister
+Vcs-Git: git://github.com/jswank/gister.git
+Vcs-Browser: https://github.com/jswank/gister
+Build-Depends: debhelper (>= 8), golang-tip|golang-go, asciidoc, xmlto
+Standards-Version: 3.9.3
+
+Package: gister
+Architecture: any
+Depends: ${misc:Depends},
+Description: Gist generator
+ gister is a command line tool that creates gists from files or standard
+ input.
