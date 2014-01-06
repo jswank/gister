@@ -6,27 +6,30 @@ A command line application to create gists.
 Installation
 ------------
 
-A <a href="http://golang.org/">Go</a> build environment is required to compile.  Follow the 
-instructions in the <a href="http://golang.org/doc/install">Getting Started</a> document.
-
-Additionally, the `go-flags` package is required:
+A <a href="http://golang.org/">Go</a> build environment is required to compile.  Follow the instructions in
+the <a href="http://golang.org/doc/install">Getting Started</a> document, and configure your <a
+href="http://golang.org/doc/articles/go_command.html?h=GOPATH#tmp_3">$GOPATH</a>.  To compile & install, 
+just run:
 ```bash
-$ go get github.com/jessevdk/go-flags
+$ go get github.com/jswank/gister
 ```
 
-Next:
+Alternatively, run:
+
 ```bash
+$ go get github.com/jessevdk/go-flags
 $ make
 $ sudo make install
 ```
-Alternatively:
+
+An RPM can also be created:
 ```bash
 $ make rpm
 ```
 
-A single binary, `gister` is created.  This binary can be installed on any compatible platform
-and, for normal operation, the `git` toolchain does not have to be installed in order for it 
-to work.
+A binary, `gister` and a manual page are created.  This binary can be
+installed on any compatible platform and, for normal operation, the
+`git` toolchain does not have to be installed in order for it to work.
 
 
 Use
