@@ -1,7 +1,23 @@
-gister -- publish gists from stdin and files
+gister - publish gists from stdin and files
 ============================================
 
 A command line application to create gists.
+
+Usage
+-----
+```bash
+$ gister < file.txt
+$ gister -d "the gist description" -n "filename.txt "< file.txt
+$ echo secret | gister
+$ echo public | gister -p
+$ gister script.py 
+$ gister script.js notes.txt
+$ pbaste | gist  # Copy from the clipboard - OSX Only
+$ xsel | gist  # Copy from the clipboard - X11 Only
+$ gister - 
+the quick brown fox jumps over the lazy dog
+^D
+```
 
 Installation
 ------------
@@ -32,21 +48,6 @@ installed on any compatible platform and, for normal operation, the
 `git` toolchain does not have to be installed in order for it to work.
 
 
-Use
----
-```bash
-$ gister < file.txt
-$ gister -d "the gist description" -n "filename.txt "< file.txt
-$ echo secret | gister
-$ echo public | gister -p
-$ gister script.py 
-$ gister script.js notes.txt
-$ pbaste | gist  # Copy from the clipboard - OSX Only
-$ xsel | gist  # Copy from the clipboard - X11 Only
-$ gister - 
-the quick brown fox jumps over the lazy dog
-^D
-```
 
 Authentication
 --------------
