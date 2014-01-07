@@ -16,6 +16,7 @@ man1dir  := $(mandir)/man1
 all: build gister.1
 
 build:
+	go get github.com/jessevdk/go-flags
 	go test
 	go build
 

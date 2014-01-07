@@ -33,7 +33,8 @@ $ go get github.com/jswank/gister
 Alternatively, run:
 
 ```bash
-$ go get github.com/jessevdk/go-flags
+$ git clone https://github.com/jswank/gister
+$ cd gister
 $ make
 $ sudo make install
 ```
