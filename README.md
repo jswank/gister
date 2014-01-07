@@ -24,7 +24,7 @@ Installation
 
 A <a href="http://golang.org/">Go</a> build environment is required to compile.  Follow the instructions in
 the <a href="http://golang.org/doc/install">Getting Started</a> document, and configure your <a
-href="http://golang.org/doc/articles/go_command.html?h=GOPATH#tmp_3">$GOPATH</a>.  To compile & install, 
+href="http://golang.org/doc/articles/go_command.html#tmp_3">$GOPATH</a>.  To compile & install, 
 just run:
 ```bash
 $ go get github.com/jswank/gister
