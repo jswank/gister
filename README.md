@@ -22,10 +22,14 @@ the quick brown fox jumps over the lazy dog
 Installation
 ------------
 
-A <a href="http://golang.org/">Go</a> build environment is required to compile.  Follow the instructions in
-the <a href="http://golang.org/doc/install">Getting Started</a> document, and configure your <a
-href="http://golang.org/doc/articles/go_command.html#tmp_3">$GOPATH</a>.  To compile & install, 
-just run:
+Binaries are available @ https://github.com/jswank/gister/releases
+
+To compile, a <a href="http://golang.org/">Go</a> Go environment is required.
+Follow the instructions in the <a href="http://golang.org/doc/install">Getting Started</a>
+document, and configure your
+<a href="http://golang.org/doc/articles/go_command.html#tmp_3">$GOPATH</a>.
+
+To compile & install the binary in $GOPATH/bin, just run:
 ```bash
 $ go get github.com/jswank/gister
 ```
@@ -45,9 +49,7 @@ $ make rpm
 ```
 
 A binary, `gister` and a manual page are created.  This binary can be
-installed on any compatible platform and, for normal operation, the
-`git` toolchain does not have to be installed in order for it to work.
-
+installed on any compatible platform.
 
 
 Authentication
