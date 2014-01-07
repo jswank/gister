@@ -22,7 +22,7 @@ var opts struct {
 	Description string `short:"d" long:"desc" description:"Set the description of the gist"`
 	Insecure    bool   `short:"i" long:"insecure" description:"Insecure mode; skips SSL cert verification"`
 	Public      bool   `short:"p" long:"public" description:"Create a public gist; can be overridden via config"`
-	Name        string `short:"s" long:"name" description:"Gist filename (if using stdin)" default:"stdin.txt""`
+	Name        string `short:"s" long:"name" description:"Gist filename (if using stdin)" default:"stdin.txt"`
 	ShowVersion bool   `short:"v" long:"version" description:"Display gister and exit"`
 }
 
