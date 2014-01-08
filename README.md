@@ -28,7 +28,7 @@ Binaries are available:
 * MacOS [amd64](http://dl.bintray.com/jswank/util/gister-1.0.0-darwin-amd64.zip)
 
 
-To compile, a <a href="http://golang.org/">Go</a> Go environment is required.
+To compile, a <a href="http://golang.org/">Go</a> environment is required.
 Follow the instructions in the <a href="http://golang.org/doc/install">Getting Started</a>
 document, and configure your
 <a href="http://golang.org/doc/articles/go_command.html#tmp_3">$GOPATH</a>.
