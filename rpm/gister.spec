@@ -1,5 +1,5 @@
 Name:		gister
-Version:	1.0
+Version:	1.0.0
 Release:	1%{?dist}
 Summary:	Command line gist generator
 License:	MIT
@@ -33,5 +33,5 @@ rm -rf %{buildroot}
 %{_mandir}/man1/*
 
 %changelog
-* Sun Jan 13 2013 Jason Swank <jswank@sonatype.com> 1.0.0-1
+* Sun Jan 13 2013 Jason Swank <jswank@scalene.net> 1.0.0-1
 - intial packaging
