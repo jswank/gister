@@ -23,8 +23,9 @@ Installation
 ------------
 
 Binaries are available:
-	* Linux [386](http://dl.bintray.com/jswank/util/gister-1.0.0-linux-386.zip) | [amd64](http://dl.bintray.com/jswank/util/gister-1.0.0-linux-amd64.zip)
-	* MacOS [amd64](http://dl.bintray.com/jswank/util/gister-1.0.0-darwin-amd64.zip)
+
+* Linux [386](http://dl.bintray.com/jswank/util/gister-1.0.0-linux-386.zip) | [amd64](http://dl.bintray.com/jswank/util/gister-1.0.0-linux-amd64.zip)
+* MacOS [amd64](http://dl.bintray.com/jswank/util/gister-1.0.0-darwin-amd64.zip)
 
 
 To compile, a <a href="http://golang.org/">Go</a> Go environment is required.
