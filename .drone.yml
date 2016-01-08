@@ -8,3 +8,12 @@ build:
   commands:
     - go get
     - go build
+
+publish:
+  docker:
+    username: drone
+    password: $$DOCKER_PASS
+    email: $$DOCKER_EMAIL
+    repo: jswank/gister
+    when:
+      branch: master

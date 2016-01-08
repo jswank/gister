@@ -1,5 +1,5 @@
 gister - publish gists from stdin and files
-============================================
+===========================================
 
 A command line application to create gists.
 
