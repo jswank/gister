@@ -17,3 +17,4 @@ publish:
     repo: jswank/gister
     when:
       branch: master
+
