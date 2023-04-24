@@ -7,64 +7,19 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
-
-	flags "github.com/jessevdk/go-flags"
 )
-
-const Usage = `[OPTION]... FILE...
-  gister [OPTION]... DIR
-  CMD | gister [OPTION]...
-
-gister creates GitHub gists using the files specified.
-
-Authentication:
-The GitHub API requires authentication.  An OAuth token can be provided via the
-environment variable $GISTER_OAUTH_TOKEN or using the configuration file.
-`
-
-type Config struct {
-	Token       string `description:"OAUTH token for usage with the API" ini-name:"oauth_token" env:"GISTER_OAUTH_TOKEN"`
-	Public      bool   `short:"p" long:"public" ini-name:"public" description:"Create a public gist" env:"GISTER_PUBLIC"`
-	Description string `short:"d" long:"desc" description:"Description of the gist"`
-	Name        string `short:"n" long:"name" description:"Filename if using stdin" default:"stdin.txt"`
-	Version     bool   `short:"v" long:"version" description:"Display gister version and exit"`
-	Help        bool   `short:"h" long:"help" description:"Show this help message"`
-}
 
 var (
-	config    = Config{}
-	filenames []string
-	version   = "2.0"
-	parser    = flags.NewParser(&config, flags.PassDoubleDash)
+	version = "2.0"
 )
 
-func init() {
-	parser.Usage = Usage
-}
+func init() {}
 
 func main() {
 
-	args, err := parser.Parse()
-	if config.Help {
-		parser.WriteHelp(os.Stdout)
-		os.Exit(0)
-	}
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Unable to parse flags, %s\n", err)
-		os.Exit(1)
-	}
+	args := doConfig()
 
-	if config.Version == true {
-		fmt.Printf("%s\n", version)
-		os.Exit(0)
-	}
-
-	if config.Token == "" {
-		fmt.Fprintln(os.Stderr, "OAuth token was not provided")
-		os.Exit(1)
-	}
-
-	filenames, err = getFileList(args)
+	filenames, err := getFileList(args)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to generate file list, %s\n", err)
 		os.Exit(1)
