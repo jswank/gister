@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 
 	flags "github.com/jessevdk/go-flags"
 )
@@ -30,6 +31,7 @@ environment variable $GISTER_OAUTH_TOKEN or using the configuration file.
 // -h listing (short/long are not defined).
 //
 type Config struct {
+	Config      string `short:"c" long:"config" description:"Path to the config file (default: $XDG_CONFIG_HOME/gister/config)"`
 	Token       string `description:"OAUTH token for usage with the API" ini-name:"oauth_token" env:"GISTER_OAUTH_TOKEN"`
 	Public      bool   `short:"p" long:"public" ini-name:"public" description:"Create a public gist" env:"GISTER_PUBLIC"`
 	Description string `short:"d" long:"desc" description:"Description of the gist"`
@@ -38,6 +40,8 @@ type Config struct {
 	Help        bool   `short:"h" long:"help" description:"Show this help message"`
 }
 
+func init() {}
+
 // do the config init- or die trying.
 // return the unparsed args
 func doConfig() []string {
@@ -45,6 +49,16 @@ func doConfig() []string {
 	parser := flags.NewParser(&config, flags.PassDoubleDash)
 	parser.Usage = Usage
 
+	config_file := getConfigFilename()
+	if config_file != "" {
+		iniParser := flags.NewIniParser(parser)
+		err := iniParser.ParseFile(config_file)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Unable to parse config file, %s\n", err)
+			os.Exit(1)
+		}
+
+	}
 	args, err := parser.Parse()
 	if config.Help {
 		parser.WriteHelp(os.Stdout)
@@ -67,4 +81,21 @@ func doConfig() []string {
 
 	return args
 
+}
+
+// if an appropriate config file exists, output the filename
+func getConfigFilename() string {
+	xdgConfigHome := os.Getenv("XDG_CONFIG_HOME")
+	if xdgConfigHome == "" {
+		xdgConfigHome = filepath.Join(os.Getenv("HOME"), ".config")
+	}
+
+	config_file := filepath.Join(xdgConfigHome, "gister", "config")
+
+	_, err := os.Stat(config_file)
+	if err != nil {
+		return ""
+	}
+
+	return config_file
 }
