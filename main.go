@@ -154,6 +154,9 @@ func getFileList(args []string) ([]string, error) {
 		// no args => all files in current dir
 		return []string{"-"}, nil
 	} else if len(args) == 1 {
+		if args[0] == "-" {
+			return []string{args[0]}, nil
+		}
 		// a file or directory was supplied
 		fileinfo, err := os.Stat(args[0])
 		if err != nil {
@@ -170,7 +173,7 @@ func getFileList(args []string) ([]string, error) {
 				if e.IsDir() { // skip the directories
 					continue
 				}
-				if e.Type()&os.ModeSymlink == os.ModeSymlink { // skip the symlinks
+				if e.Type()&os.ModeSymlink == os.ModeSymlink { // skip symlinks
 					continue
 				}
 				filelist = append(filelist, e.Name())
