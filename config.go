@@ -24,7 +24,7 @@ The GitHub API requires authentication.  An OAuth token can be provided via the
 environment variable $GISTER_OAUTH_TOKEN or using the configuration file.
 `
 
-// All the config
+// The config object, for use by flags
 //
 // Note - Token can not be set on the command line, and will not appear in the
 // -h listing (short/long are not defined).
