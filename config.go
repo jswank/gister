@@ -7,6 +7,12 @@ import (
 	flags "github.com/jessevdk/go-flags"
 )
 
+// global config variable
+var (
+	config = Config{}
+)
+
+// usage text
 const Usage = `[OPTION]... FILE...
   gister [OPTION]... DIR
   CMD | gister [OPTION]...
@@ -18,6 +24,11 @@ The GitHub API requires authentication.  An OAuth token can be provided via the
 environment variable $GISTER_OAUTH_TOKEN or using the configuration file.
 `
 
+// All the config
+//
+// Note - Token can not be set on the command line, and will not appear in the
+// -h listing (short/long are not defined).
+//
 type Config struct {
 	Token       string `description:"OAUTH token for usage with the API" ini-name:"oauth_token" env:"GISTER_OAUTH_TOKEN"`
 	Public      bool   `short:"p" long:"public" ini-name:"public" description:"Create a public gist" env:"GISTER_PUBLIC"`
@@ -26,12 +37,6 @@ type Config struct {
 	Version     bool   `short:"v" long:"version" description:"Display gister version and exit"`
 	Help        bool   `short:"h" long:"help" description:"Show this help message"`
 }
-
-var (
-	config = Config{}
-)
-
-func init() {}
 
 // do the config init- or die trying.
 // return the unparsed args

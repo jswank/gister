@@ -7,12 +7,11 @@ import (
 	"golang.org/x/oauth2"
 )
 
-const GITHUB_API_URL = "https://api.github.com/"
-
 type GistClient struct {
 	client *github.Client
 }
 
+// Create a new GistClient using the supplied OAuth token
 func NewGistClient(token string) *GistClient {
 
 	ts := oauth2.StaticTokenSource(
@@ -24,6 +23,7 @@ func NewGistClient(token string) *GistClient {
 
 }
 
+// Create a new gist, returning the URL
 func (gc GistClient) Create(gist *github.Gist) (url string, err error) {
 
 	ctx := context.Background()

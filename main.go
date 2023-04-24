@@ -1,10 +1,8 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"path"
 
@@ -53,18 +51,6 @@ func main() {
 	}
 	fmt.Println(url)
 
-}
-
-func parseBody(resp io.Reader) (g Gist, err error) {
-	data, err := ioutil.ReadAll(resp)
-	if err != nil {
-		return
-	}
-	err = json.Unmarshal(data, &g)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "unexpected response: %s\n", data)
-	}
-	return
 }
 
 /* Given a list of potential file names, return a list of files. If a directory
