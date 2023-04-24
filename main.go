@@ -145,7 +145,7 @@ func parseBody(resp io.Reader) (g Gist, err error) {
  *
  * The size of the args array determines behavior:
  *		empty -> return "-" as the single file to indicate stdin
- *		one element -> either a directory or a single file
+ *		one element -> either a single file or directory was supplied
  *    larger -> assume the input is the list of files
 */
 func getFileList(args []string) ([]string, error) {
@@ -162,8 +162,8 @@ func getFileList(args []string) ([]string, error) {
 		if err != nil {
 			return nil, err
 		}
+		// if it is a directory, read it, returning files
 		if fileinfo.IsDir() {
-			// if it is a directory, read it, returning files
 			entries, err := os.ReadDir(fileinfo.Name())
 			if err != nil {
 				return nil, err
@@ -179,10 +179,11 @@ func getFileList(args []string) ([]string, error) {
 				filelist = append(filelist, e.Name())
 			}
 			return filelist, nil
-		} else {
 			// otherwise just return the file name
+		} else {
 			return []string{args[0]}, nil
 		}
+		// larger -> assume the input is the list of files
 	} else {
 		return args, nil
 	}
