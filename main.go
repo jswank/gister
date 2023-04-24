@@ -52,12 +52,12 @@ func main() {
 }
 
 /* Given a list of potential file names, return a list of files. If a directory
-* is specified, it will be traversed.
-*
-* The size of the args array determines behavior:
-*		empty -> return "-" as the single file to indicate stdin
-*		one element -> either a single file or directory was supplied
-*   larger -> assume the input is the list of files
+ * is specified, it will be traversed.
+ *
+ * The size of the args array determines behavior:
+ *   empty -> return "-" as the single file to indicate stdin
+ *   one element -> either a single file or directory was supplied
+ *   larger -> assume the input is the list of files
  */
 func getFileList(args []string) ([]string, error) {
 
