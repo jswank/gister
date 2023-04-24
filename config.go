@@ -23,7 +23,10 @@ gister creates GitHub gists using the files specified.
 Authentication:
 The GitHub API requires authentication.  An OAuth token can be provided via the
 environment variable $GISTER_OAUTH_TOKEN or using the configuration file.
-`
+
+Configuration:
+A file $XDG_CONFIG_HOME/gister/config can be used to set values for oauth_token
+and public.`
 
 // The config object, for use by flags
 //
@@ -31,7 +34,6 @@ environment variable $GISTER_OAUTH_TOKEN or using the configuration file.
 // -h listing (short/long are not defined).
 //
 type Config struct {
-	Config      string `short:"c" long:"config" description:"Path to the config file (default: $XDG_CONFIG_HOME/gister/config)"`
 	Token       string `description:"OAUTH token for usage with the API" ini-name:"oauth_token" env:"GISTER_OAUTH_TOKEN"`
 	Public      bool   `short:"p" long:"public" ini-name:"public" description:"Create a public gist" env:"GISTER_PUBLIC"`
 	Description string `short:"d" long:"desc" description:"Description of the gist"`
