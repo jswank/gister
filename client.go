@@ -1,42 +1,36 @@
 package main
 
 import (
-	"io"
-	"net/http"
+	"context"
+
+	"github.com/google/go-github/github"
+	"golang.org/x/oauth2"
 )
 
 const GITHUB_API_URL = "https://api.github.com/"
 
-type GithubClient struct {
-	token  string
-	client *http.Client
+type GistClient struct {
+	client *github.Client
 }
 
-func NewGithubClient(token string) (ghc *GithubClient, err error) {
-	ghc = &GithubClient{token: token}
-	ghc.client = &http.Client{}
-	return
+func NewGistClient(token string) *GistClient {
+
+	ts := oauth2.StaticTokenSource(
+		&oauth2.Token{AccessToken: token},
+	)
+	tc := oauth2.NewClient(context.Background(), ts)
+
+	return &GistClient{github.NewClient(tc)}
+
 }
 
-func (ghc *GithubClient) NewAPIRequest(method, url string, body io.Reader) (req *http.Request, err error) {
+func (gc GistClient) Create(gist *github.Gist) (url string, err error) {
 
-	req, err = http.NewRequest(method, GITHUB_API_URL+url, body)
+	ctx := context.Background()
+	g, _, err := gc.client.Gists.Create(ctx, gist)
 	if err != nil {
-		return
+		return "", err
 	}
+	return *g.HTMLURL, nil
 
-	req.Header.Add("Authorization", "token "+ghc.token)
-	req.Header.Set("Content-type", "application/json")
-
-	return
-}
-
-func (ghc *GithubClient) RunRequest(req *http.Request) (resp *http.Response, err error) {
-
-	resp, err = ghc.client.Do(req)
-	if err != nil {
-		return
-	}
-
-	return
 }

@@ -1,12 +1,14 @@
 package main
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
 	"os"
+	"path"
+
+	"github.com/google/go-github/github"
 )
 
 var (
@@ -25,61 +27,31 @@ func main() {
 		os.Exit(1)
 	}
 
-	gist := NewGistCreate()
-	gist.Description = config.Description
-	gist.Public = config.Public
+	gist := github.Gist{
+		Description: &config.Description,
+		Public:      &config.Public,
+	}
+
+	gist.Files = make(map[github.GistFilename]github.GistFile)
 
 	for _, f := range filenames {
-		gf, err := CreateGistFile(f)
+		gf, err := createGistFile(f)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "error encoding gist, %s\n", err)
 			os.Exit(1)
 		}
-		gist.AddFile(gf)
+		gist.Files[github.GistFilename(*gf.Filename)] = gf
 	}
 
 	// TODO: here on should be put in an improved client interface
 
-	ghc, err := NewGithubClient(config.Token)
+	client := NewGistClient(config.Token)
+	url, err := client.Create(&gist)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "client error, %s\n", err)
-		os.Exit(2)
-	}
-
-	body, err := json.MarshalIndent(gist, "", "  ")
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "JSON encoding error, %s\n", err)
 		os.Exit(1)
 	}
-
-	req, err := ghc.NewAPIRequest("POST", "gists", bytes.NewBuffer(body))
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "request error, %s\n", err)
-		os.Exit(2)
-	}
-
-	res, err := ghc.RunRequest(req)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "connection error, %s\n", err)
-		os.Exit(2)
-	}
-
-	if res.StatusCode != 201 {
-		fmt.Fprintf(os.Stderr, "got bad status from github, %d\n", res.StatusCode)
-		data, err := ioutil.ReadAll(res.Body)
-		if err == nil {
-			fmt.Fprintf(os.Stderr, "%s\n", data)
-		}
-		os.Exit(2)
-	}
-
-	gistResponse, err := parseBody(res.Body)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "error parsing json response: %s\n", err)
-		os.Exit(2)
-	}
-
-	fmt.Printf("%s\n", gistResponse.HtmlURL)
+	fmt.Println(url)
 
 }
 
@@ -142,4 +114,32 @@ func getFileList(args []string) ([]string, error) {
 	} else {
 		return args, nil
 	}
+}
+
+func createGistFile(filename string) (gf github.GistFile, err error) {
+
+	var input io.Reader
+
+	if filename == "-" { //stdin
+		input = os.Stdin
+		gf.Filename = &config.Name
+	} else {
+		input, err = os.Open(filename)
+		if err != nil {
+			return
+		}
+		filename = path.Base(filename)
+		gf.Filename = &filename
+	}
+
+	file_content, err := io.ReadAll(input)
+	if err != nil {
+		return
+	}
+	str_content := string(file_content)
+
+	gf.Content = &str_content
+
+	return
+
 }
