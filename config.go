@@ -14,14 +14,18 @@ var (
 )
 
 // usage text
-const Usage = `[OPTION]... FILE...
-  gister [OPTION]... DIR
-  CMD | gister [OPTION]...
+const Usage = `[OPTION...] FILE...
+  gister [OPTION...] DIR
+  CMD | gister [OPTION...]
 
 gister creates GitHub gists using the files specified.
 
+Examples:
+  gister -d "Description of the gist" file1 file2 file3
+	tail -100 logs | gister -d "Some logs" -n log.txt
+
 Authentication:
-The GitHub API requires authentication.  An OAuth token can be provided via the
+The GitHub API requires authentication. An OAuth token can be provided via the
 environment variable $GISTER_OAUTH_TOKEN or using the configuration file.
 
 Configuration:

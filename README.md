@@ -7,20 +7,27 @@ Create GitHub Gists.
 ```console
 $ gister -h
 Usage:
-  gister [OPTION]... FILE...
-  gister [OPTION]... DIR
-  CMD | gister [OPTION]...
+  gister [OPTION...] FILE...
+  gister [OPTION...] DIR
+  CMD | gister [OPTION...]
 
 gister creates GitHub gists using the files specified.
 
+Examples:
+  gister -d "Description of the gist" file1 file2 file3
+	tail -100 logs | gister -d "Some logs" -n log.txt
+
 Authentication:
-The GitHub API requires authentication.  An OAuth token can be provided via the
+The GitHub API requires authentication. An OAuth token can be provided via the
 environment variable $GISTER_OAUTH_TOKEN or using the configuration file.
 
+Configuration:
+A file $XDG_CONFIG_HOME/gister/config can be used to set values for oauth_token
+and public.
 
 Application Options:
   -p, --public   Create a public gist [$GISTER_PUBLIC]
-  -d, --desc=    Description of the gist
+  -d, --desc=    Description of the gist (default: the default description)
   -n, --name=    Filename if using stdin (default: stdin.txt)
   -v, --version  Display gister version and exit
   -h, --help     Show this help message
