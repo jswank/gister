@@ -30,7 +30,7 @@ environment variable $GISTER_OAUTH_TOKEN or using the configuration file.
 
 Configuration:
 A file $XDG_CONFIG_HOME/gister/config can be used to set values for oauth_token
-and public.`
+and other flags.`
 
 // The config object, for use by flags
 //
@@ -39,8 +39,8 @@ and public.`
 //
 type Config struct {
 	Token       string `description:"OAUTH token for usage with the API" ini-name:"oauth_token" env:"GISTER_OAUTH_TOKEN"`
-	Public      bool   `short:"p" long:"public" ini-name:"public" description:"Create a public gist" env:"GISTER_PUBLIC"`
-	Description string `short:"d" long:"desc" description:"Description of the gist"`
+	Public      bool   `short:"p" long:"public" ini-name:"public" description:"Create a public gist (default: false)" env:"GISTER_PUBLIC"`
+	Description string `short:"d" long:"desc" description:"Posted with gister"`
 	Name        string `short:"n" long:"name" description:"Filename if using stdin" default:"stdin.txt"`
 	Version     bool   `short:"v" long:"version" description:"Display gister version and exit"`
 	Help        bool   `short:"h" long:"help" description:"Show this help message"`
