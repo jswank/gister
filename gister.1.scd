@@ -104,7 +104,7 @@ https://gist.github.com/ff9802fdf326abdb6
 
 # ENVIRONMENT
 
-*GISTER_OAUTH_CONFIG*::
+*GISTER_OAUTH_CONFIG*
 	The token to use for OAuth authentication.  
 
 # FILES
