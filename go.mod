@@ -1,4 +1,4 @@
-module git.sr.ht/~jswank/gister
+module scalene.net/gister
 
 go 1.20
 
