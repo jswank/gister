@@ -30,7 +30,7 @@ gister:
 #gister.fish: gister
 #	./gister completion fish >gister.fish
 #
-gister.1: doc/gister.1.scd
+gister.1: gister.1.scd
 	$(SCDOC) <gister.1.scd >gister.1
 
 clean:

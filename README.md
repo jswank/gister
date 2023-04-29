@@ -5,6 +5,8 @@ Create GitHub Gists.
 ## Quickstart
 
 ```console
+$ go install scalene.net/gister@latest
+
 $ gister -h
 Usage:
   gister [OPTION...] FILE...
