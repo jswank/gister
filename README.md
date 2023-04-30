@@ -40,5 +40,6 @@ Application Options:
 $ make
 $ sudo make install
 ```
-$ which gister
-$ man 
+
+## License
+MIT
