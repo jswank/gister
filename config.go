@@ -40,7 +40,7 @@ and other flags.`
 type Config struct {
 	Token       string `description:"OAUTH token for usage with the API" ini-name:"oauth_token" env:"GISTER_OAUTH_TOKEN"`
 	Public      bool   `short:"p" long:"public" ini-name:"public" description:"Create a public gist (default: false)" env:"GISTER_PUBLIC"`
-	Description string `short:"d" long:"desc" description:"Posted with gister"`
+	Description string `short:"d" long:"desc" description:"Description of the gist" default:"Posted with gister"`
 	Name        string `short:"n" long:"name" description:"Filename if using stdin" default:"stdin.txt"`
 	Version     bool   `short:"v" long:"version" description:"Display gister version and exit"`
 	Help        bool   `short:"h" long:"help" description:"Show this help message"`
