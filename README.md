@@ -16,8 +16,8 @@ Usage:
 gister creates GitHub gists using the files specified.
 
 Examples:
-  gister -d "Description of the gist" file1 file2 file3
-	tail -100 logs | gister -d "Some logs" -n log.txt
+  $ gister -d "Description of the gist" file1 file2 file3
+  $ tail -100 logs | gister -d "Some logs" -n log.txt
 
 Authentication:
 The GitHub API requires authentication. An OAuth token can be provided via the
@@ -34,3 +34,11 @@ Application Options:
   -v, --version  Display gister version and exit
   -h, --help     Show this help message
 ```
+
+## System Installation
+```console
+$ make
+$ sudo make install
+```
+$ which gister
+$ man 

@@ -21,8 +21,8 @@ const Usage = `[OPTION...] FILE...
 gister creates GitHub gists using the files specified.
 
 Examples:
-  gister -d "Description of the gist" file1 file2 file3
-	tail -100 logs | gister -d "Some logs" -n log.txt
+  $ gister -d "Description of the gist" file1 file2 file3
+  $ tail -100 logs | gister -d "Some logs" -n log.txt
 
 Authentication:
 The GitHub API requires authentication. An OAuth token can be provided via the
