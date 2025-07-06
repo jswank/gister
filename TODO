@@ -1,0 +1,6 @@
+- packaging & release
+-- binaries for multiple platforms
+-- packages
+
+- create a README.md if one does not exist, with a ToC to each file in the gist
+  and the description.
